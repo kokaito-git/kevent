@@ -16,9 +16,7 @@ setup(
         "License :: OSI Approved :: MIT License",
     ],
     install_requires=[
-        "pydantic",
-        "typeguard",
-        "kcolors"
+        "kmodels",
     ],
     packages=find_packages(),
     python_requires=">=3.13",
