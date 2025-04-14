@@ -11,12 +11,17 @@ from typeguard import typechecked
 class EventDispatcher(Generic[EVENT_T]):
     @typechecked
     def __init__(
-            self, *, whitelist: Set[Type[EVENT_T]] | Unset = unset, blacklist: Set[Type[EVENT_T]] | Unset = unset
+            self,
+            *,
+            whitelist: Set[Type[EVENT_T]] | Unset = unset,
+            blacklist: Set[Type[EVENT_T]] | Unset = unset,
+            allow_multiple: bool = False
     ):
         # Tipo de evento -> lista de callbacks
         self._listeners: DefaultDict[Type[EVENT_T], list[Callable[[EVENT_T], None]]] = defaultdict(list)
         self._whitelist: Set[Type[EVENT_T]] | Unset = whitelist
         self._blacklist: Set[Type[EVENT_T]] | Unset = blacklist
+        self._allow_multiple: bool = allow_multiple
 
     def _validate_event_type(self, event_type: Type[EVENT_T]):
         """Valida el tipo de evento contra la whitelist y blacklist."""
@@ -34,6 +39,8 @@ class EventDispatcher(Generic[EVENT_T]):
     def subscribe(self, event_type: Type[EVENT_T], callback: Callable[[EVENT_T], None]):
         """Registra un callback para un tipo de evento."""
         self._validate_event_type(event_type)
+        if not self._allow_multiple and event_type in self._listeners and callback in self._listeners[event_type]:
+            raise ValueError(f"El callback ya está registrado para el tipo de evento {event_type.__name__}.")
         self._listeners[event_type].append(callback)
 
     @typechecked
