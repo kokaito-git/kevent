@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     author="kokaito-git",
     name="kevent",
-    version="0.1.0.1",
+    version="0.1.1.0",
     description="KEvent",
     author_email="kokaito.git@gmail.com",
     url="https://github.com/kokaito-git/kevent",
@@ -17,6 +17,7 @@ setup(
     ],
     install_requires=[
         "kmodels",
+        "typeguard",
     ],
     packages=find_packages(),
     python_requires=">=3.13",
