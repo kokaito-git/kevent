@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     author="kokaito-git",
     name="kevent",
-    version="0.1.2.0",
+    version="0.1.3.0",
     description="KEvent",
     author_email="kokaito.git@gmail.com",
     url="https://github.com/kokaito-git/kevent",
@@ -16,6 +16,7 @@ setup(
         "License :: OSI Approved :: MIT License",
     ],
     install_requires=[
+        "klocker",
         "kmodels",
         "typeguard",
     ],

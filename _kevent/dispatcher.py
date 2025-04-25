@@ -2,10 +2,10 @@ from collections import defaultdict
 from typing import Generic, DefaultDict, Callable, Type, Set
 
 from kmodels.types import Unset, unset
-
-from kevent.event import EVENT_T
-
+from _kevent.event import EVENT_T
 from typeguard import typechecked
+
+from klocker.simple import SimpleLocker
 
 
 class EventDispatcher(Generic[EVENT_T]):
