@@ -68,7 +68,7 @@ class SimpleEventDispatcher(Generic[EVENT_T]):
         self._on = enable
 
     def clear_queue(self):
-        self._event_queue.clear()
+        self._locker.with_locker(self._clear_func)
 
     @typechecked
     def has_subscribers(self, event_type: Type[EVENT_T]) -> bool:
@@ -100,16 +100,20 @@ class SimpleEventDispatcher(Generic[EVENT_T]):
         )
         return f"EventDispatcher(subscribers={{ {subscribers_repr} }})"
 
+    def _clear_func(self):
+        self._event_queue.clear()
+
     def _dispatch_func(self, ui: SimpleLockerUserInterface):
         """
-        Función que se ejecuta de manera segura (solo una ejecución a la vez). Aunque no es la responsable de tener
-        en cuanta el bloqueo si es la que contiene la lógica principal
+        Safely processes events in the queue one by one, ensuring no concurrent modification issues.
         """
-        for ev in self._event_queue:
-            # We check if the dispatcher is still on
+        while self._event_queue:
+            # Check if the dispatcher is still enabled
             if not self.is_enabled():
                 break
 
+            # Remove the first event from the queue and process it
+            ev = self._event_queue.pop(0)
             self._subscribers[type(ev)].dispatch(ev)
 
     @classmethod

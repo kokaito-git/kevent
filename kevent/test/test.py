@@ -26,14 +26,8 @@ def test():
     dispatcher: SimpleEventDispatcher[SampleEvent] = SimpleEventDispatcher(event_types, config=config)
 
     lmda = lambda e: sample_callback(e)
-    dispatcher.subscribe(ConcreteEventA, SimpleEventCallback(sample_callback))
-    dispatcher.subscribe(ConcreteEventB, lmda)
-
-    sample_events = (ConcreteEventA(integer=1), ConcreteEventB(string='test'), ConcreteEventB(string='nandemo'))
-    dispatcher.enable(False)
-    dispatcher.dispatch(sample_events)
-    dispatcher.enable()
-    dispatcher.dispatch()
+    dispatcher.subscribe(ConcreteEventB, SimpleEventCallback(sample_callback))
+    dispatcher.dispatch(ConcreteEventB(string='test'))
 
 
 if __name__ == '__main__':
