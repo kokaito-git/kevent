@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     author="kokaito-git",
     name="kevent",
-    version="0.1.3.2",
+    version="0.1.3.4",
     description="KEvent",
     author_email="kokaito.git@gmail.com",
     url="https://github.com/kokaito-git/kevent",
