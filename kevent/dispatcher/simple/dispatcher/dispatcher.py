@@ -92,7 +92,7 @@ class SimpleEventDispatcher(SimpleEventDispatcherInterface[EVENT_T]):
         self._subscribers[event_type].unsubscribe(callback, from_all=from_all)
 
     @typechecked
-    def dispatch(self, events: Iterable[EVENT_T] | Tuple[EVENT_T] | EVENT_T | Unset = unset):
+    def dispatch(self, events: Iterable[EVENT_T] | tuple[EVENT_T, ...] | EVENT_T | Unset = unset):
         _events = self._to_event_list(events)
 
         self._append_events(_events)
