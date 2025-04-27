@@ -1,21 +1,22 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from typing import DefaultDict, Type, Iterable, Tuple
 
 from klocker.simple import SimpleLocker
 from klocker.simple.locker.config import SimpleLockerConfig
 from klocker.simple.thread.state import SimpleThreadLockFailure, SimpleThreadExecutionFailure
 from klocker.simple.user import SimpleLockerUserInterface
-from typeguard import typechecked
-from typing import Generic, DefaultDict, Type, Iterable, Tuple
-
-from kevent.event import EVENT_T, Event
 from kmodels.types import Unset, unset
+from typeguard import typechecked
+
 from kevent.dispatcher.simple.constants import CALLABLE_T
 from kevent.dispatcher.simple.dispatcher.config import (
     SimpleEventDispatcherConfigHandler, SimpleEventDispatcherConfigInterface, SimpleEventDispatcherConfig
 )
+from kevent.dispatcher.simple.dispatcher.interface import SimpleEventDispatcherInterface
 from kevent.dispatcher.simple.subscribers import SimpleEventSubscribers
+from kevent.event import EVENT_T, Event
 
 
 @typechecked
@@ -36,7 +37,7 @@ def to_event_list(events: Iterable[EVENT_T] | Tuple[EVENT_T] | EVENT_T | Unset |
     return events
 
 
-class SimpleEventDispatcher(Generic[EVENT_T]):
+class SimpleEventDispatcher(SimpleEventDispatcherInterface[EVENT_T]):
     @typechecked
     def __init__(
             self,
