@@ -25,9 +25,13 @@ def test():
     config = SimpleEventDispatcherConfig(allow_multiple=False)
     dispatcher: SimpleEventDispatcher[SampleEvent] = SimpleEventDispatcher(event_types, config=config)
 
-    lmda = lambda e: sample_callback(e)
+    # lmda = lambda e: sample_callback(e)
     dispatcher.subscribe(ConcreteEventB, SimpleEventCallback(sample_callback))
     dispatcher.dispatch(ConcreteEventB(string='test'))
+
+    print(dispatcher.is_subscribed(ConcreteEventB, sample_callback))
+    dispatcher.unsubscribe(ConcreteEventB, sample_callback)
+    print(dispatcher.is_subscribed(ConcreteEventB, sample_callback))
 
 
 if __name__ == '__main__':

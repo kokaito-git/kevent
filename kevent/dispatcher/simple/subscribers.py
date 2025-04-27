@@ -30,6 +30,10 @@ class SimpleEventSubscribers(Generic[EVENT_T]):
         return len(self) > 0
 
     @typechecked
+    def is_subscribed(self, callback: CALLABLE_T) -> bool:
+        return callback in self._subscribers
+
+    @typechecked
     def subscribe(self, callback: SimpleEventCallback[EVENT_T] | CALLABLE_T):
         self._raise_multiple_subscribers(callback)
 

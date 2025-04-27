@@ -76,6 +76,11 @@ class SimpleEventDispatcher(Generic[EVENT_T]):
         return self._subscribers[event_type].has_subscribers()
 
     @typechecked
+    def is_subscribed(self, event_type: Type[EVENT_T], callback: CALLABLE_T) -> bool:
+        self._raise_unknown_event_type(event_type)
+        return self._subscribers[event_type].is_subscribed(callback)
+
+    @typechecked
     def subscribe(self, event_type: Type[EVENT_T], callback: CALLABLE_T):
         self._raise_unknown_event_type(event_type)
         self._subscribers[event_type].subscribe(callback)
